@@ -84,7 +84,7 @@ congested router is sometimes called the *bottleneck* router.
 
 ### Connectionless Flows
 
-Formuch of our discussion, we assume that the network is essentially
+For much of our discussion, we assume that the network is essentially
 connectionless, with any connection-oriented service implemented in the
 transport protocol that is running on the end hosts. (We explain the
 qualification "essentially" in a moment.) This is precisely the model of
@@ -142,7 +142,7 @@ Because multiple related packets flow through each router, it sometimes
 makes sense to maintain some state information for each flow,
 information that can be used to make resource allocation decisions about
 the packets that belong to the flow. This state is sometimes called
-*soft state*; the main difference between soft state and hard state is
+*soft state*. The main difference between soft state and hard state is
 that soft state need not always be explicitly created and removed by
 signalling. Soft state represents a middle ground between a purely
 connectionless network that maintains *no* state at the routers and a
@@ -375,7 +375,7 @@ begins to drop.
 
 <figure class="line">
 	<a id="power"></a>
-	<img src="figures/f06-03-9780123850591.png" width="400px"/>
+	<img src="figures/f06-03-9780123850591.png" width="350px"/>
 	<figcaption>Ratio of throughput to delay as a function of load.</figcaption>
 </figure>
 

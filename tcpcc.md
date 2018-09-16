@@ -206,8 +206,8 @@ once.
 There are actually two different situations in which slow start runs.
 The first is at the very beginning of a connection, at which time the
 source has no idea how many packets it is going to be able to have in
-transit at a given time. (Keep in mind that TCP runs over everything
-from 9600-bps links to 2.4-Gbps links, so there is no way for the source
+transit at a given time. (Keep in mind that today TCP runs over everything
+from 1-Mbps links to 40-Gbps links, so there is no way for the source
 to know the network's capacity.) In this situation, slow start continues
 to double `CongestionWindow` each RTT until there is a loss, at which
 time a timeout causes multiplicative decrease to divide
@@ -264,7 +264,7 @@ defines an upper bound on how large the congestion window is allowed to
 grow.
 
 [Figure 4](#trace1) traces how TCP's `CongestionWindow` increases and
-decr- eases over time and serves to illustrate the interplay of slow
+decreases over time and serves to illustrate the interplay of slow
 start and additive increase/multiplicative decrease. This trace was
 taken from an actual TCP connection and shows the current value of
 `CongestionWindow`—the colored line—over time.
@@ -273,7 +273,7 @@ taken from an actual TCP connection and shows the current value of
 	<a id="trace1"></a>
 	<img src="figures/f06-11-9780123850591.png" width="600px"/>
 	<figcaption>Behavior of TCP congestion control. Colored line = value
-	of `CongestionWindow` over time; solid bullets at top of graph
+	of CongestionWindow over time; solid bullets at top of graph
 	= timeouts; hash marks at top of graph = time when each packet is
 	transmitted; vertical bars = time when a packet that was
 	eventually retransmitted was first transmitted.</figcaption>
@@ -336,8 +336,8 @@ to support 16 packets from this source. The likely result is that 16 of
 the 32 packets sent under the new congestion window will be dropped by
 the network; actually, this is the worst-case outcome, since some of the
 packets will be buffered in some router. This problem will become
-increasingly severe as the $$delay \times bandwidth$$ product
-of networks increases. For example, a $$delay \times bandwidth$$
+increasingly severe as the delay $$\times$$ bandwidth product
+of networks increases. For example, a delay $$\times$$ bandwidth
 product of 500 KB means that each
 connection has the potential to lose up to 500 KB of data at the
 beginning of each connection. Of course, this assumes that both the
@@ -345,21 +345,21 @@ source and the destination implement the "big windows" extension.
 
 Some protocol designers have proposed alternatives to slow start,
 whereby the source tries to estimate the available bandwidth by more
-sophisticated means. A recent example is the *quick-start* mechanism
-undergoing standardization at the IETF. The basic idea is that a TCP
-sender can ask for an initial sending rate greater than slow start would
-allow by putting a requested rate in its SYN packet as an IP option.
-Routers along the path can examine the option, evaluate the current
-level of congestion on the outgoing link for this flow, and decide if
-that rate is acceptable, if a lower rate would be acceptable, or if
-standard slow start should be used. By the time the SYN reaches the
-receiver, it will contain either a rate that was acceptable to all
-routers on the path or an indication that one or more routers on the
-path could not support the quick-start request. In the former case, the
-TCP sender uses that rate to begin transmission; in the latter case, it
-falls back to standard slow start. If TCP is allowed to start off
-sending at a higher rate, a session could more quickly reach the point
-of filling the pipe, rather than taking many round-trip times to do so.
+sophisticated means. One example is called *quick-start*. The basic
+idea is that a TCP sender can ask for an initial sending rate greater
+than slow start would allow by putting a requested rate in its SYN
+packet as an IP option. Routers along the path can examine the option,
+evaluate the current level of congestion on the outgoing link for this
+flow, and decide if that rate is acceptable, if a lower rate would be
+acceptable, or if standard slow start should be used. By the time the
+SYN reaches the receiver, it will contain either a rate that was
+acceptable to all routers on the path or an indication that one or
+more routers on the path could not support the quick-start request. In
+the former case, the TCP sender uses that rate to begin transmission;
+in the latter case, it falls back to standard slow start. If TCP is
+allowed to start off sending at a higher rate, a session could more
+quickly reach the point of filling the pipe, rather than taking many
+round-trip times to do so.
 
 Clearly one of the challenges to this sort of enhancement to TCP is that
 it requires substantially more cooperation from the routers than
@@ -418,7 +418,7 @@ everything up to and including packet 6 back to the source.
 	<a id="trace2"></a>
 	<img src="figures/f06-13-9780123850591.png" width="600px"/>
 	<figcaption>Trace of TCP with fast retransmit. Colored line
-	=`CongestionWindow`; solid bullet = timeout; hash marks = time
+	= CongestionWindow; solid bullet = timeout; hash marks = time
 	when each packet is transmitted; vertical bars = time when a
 	packet that was eventually retransmitted was first
 	transmitted.</figcaption>

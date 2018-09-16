@@ -6,11 +6,12 @@ the first place. In fact, TCP repeatedly increases the load it imposes
 on the network in an effort to find the point at which congestion
 occurs, and then it backs off from this point. Said another way, TCP
 *needs* to create losses to find the available bandwidth of the
-connection. An appealing alternative, but one that has not yet been
-widely adopted, is to predict when congestion is about to happen and
-then to reduce the rate at which hosts send data just before packets
-start being discarded. We call such a strategy *congestion avoidance*,
-to distinguish it from *congestion control*.
+connection. An appealing alternative is to predict when congestion is
+about to happen and then to reduce the rate at which hosts send data
+just before packets start being discarded. We call such a strategy
+*congestion avoidance* to distinguish it from *congestion control*,
+but it's probably most accurate to think of "avoidance" as a subset
+of "control."
 
 This section describes three different congestion-avoidance mechanisms.
 The first two take a similar approach: They put a small amount of
@@ -91,10 +92,19 @@ would have to, so as to notify the source that it should decrease its
 congestion window sooner than it would normally have. In other words,
 the router drops a few packets before it has exhausted its buffer space
 completely, so as to cause the source to slow down, with the hope that
-this will mean it does not have to drop lots of packets later on. Note
-that RED could easily be adapted to work with an explicit feedback
-scheme simply by *marking* a packet instead of *dropping* it, as
-discussed in the sidebar on Explicit Congestion Notification.
+this will mean it does not have to drop lots of packets later on.
+
+Note that RED is also sometimes used with an explicit feedback
+scheme simply by *marking* a packet instead of *dropping* it.
+This feedback mechanism is implemented by treating two bits
+in the IP TOS field as Explicit Congestion Notification (ECN) bits.
+One bit is set by the source to indicate that it is ECN-capable,
+that is, able to react to a congestion notification. The other bit
+is set by routers along the end-to-end path when congestion is
+encountered, as indicated by the RED algorithm. The latter bit is
+also echoed back to the source by the destination host. TCP running
+on the source responds to the ECN bit set in exactly the same way it
+responds to a dropped packet.
 
 The second difference between RED and DECbit is in the details of how
 RED decides when to drop a packet and what packet it decides to drop. To
@@ -298,15 +308,14 @@ filtered out.
 
 Since RED works by sending signals to TCP flows to tell them to slow
 down, you might wonder what would happen if those signals are ignored.
-This is often called the *unresponsive flow* problem, and it has been a
-matter of some concern for several years. Unresponsive flows use more
-than their fair share of network resources and could cause congestive
-collapse if there were enough of them, just as in the days before TCP
-congestion control. Some of the techniques described in the next section
-can help with this problem by isolating certain classes of traffic from
-others. There is also the possibility that a variant of RED could drop
-more heavily from flows that are unresponsive to the initial hints that
-it sends; this continues to be an area of active research.
+This is often called the *unresponsive flow* problem. Unresponsive
+flows use more than their fair share of network resources and could
+cause congestive collapse if there were enough of them, just as in the
+days before TCP congestion control. Some of the techniques described
+in the next section can help with this problem by isolating certain
+classes of traffic from others. There is also the possibility that a
+variant of RED could drop more heavily from flows that are
+unresponsive to the initial hints that it sends.
 
 ## Source-Based Congestion Avoidance
 

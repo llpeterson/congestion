@@ -106,7 +106,7 @@ such as Internet telephony do this today.) Such an application is able
 to flood the Internet's routers with its own packets, thereby causing
 other applications' packets to be discarded.
 
-Fair queuing (FQ) is an algorithm that has been proposed to address this
+Fair queuing (FQ) is an algorithm that has been designed to address this
 problem. The idea of FQ is to maintain a separate queue for each flow
 currently being handled by the router. The router then services these
 queues in a sort of round-robin, as illustrated in [Figure 2](#fq).
@@ -230,14 +230,15 @@ sending, however, they will start to use their share and the capacity
 available to my flow will drop.
 
 The second thing to notice is that if the link is fully loaded and there
-are $$n$$ flows sending data, I cannot use more than $$1/n$$th of the link
-bandwidth. If I try to send more than that, my packets will be assigned
-increasingly large timestamps, causing them to sit in the queue longer
-awaiting transmission. Eventually, the queue will overflow—although
-whether it is my packets or someone else's that are dropped is a
-decision that is not determined by the fact that we are using fair
-queuing. This is determined by the drop policy; FQ is a scheduling
-algorithm, which, like FIFO, may be combined with various drop policies.
+are $$n$$ flows sending data, I cannot use more than $$1/n^{th}$$ of
+the link bandwidth. If I try to send more than that, my packets will
+be assigned increasingly large timestamps, causing them to sit in the
+queue longer awaiting transmission. Eventually, the queue will
+overflow—although whether it is my packets or someone else's that are
+dropped is a decision that is not determined by the fact that we are
+using fair queuing. This is determined by the drop policy; FQ is a
+scheduling algorithm, which, like FIFO, may be combined with various
+drop policies.
 
 Because FQ is work conserving, any bandwidth that is not used by one
 flow is automatically available to other flows. For example, if we have
@@ -257,7 +258,7 @@ time the router services that queue, which effectively controls the
 percentage of the link's bandwidth that that flow will get. Simple FQ
 gives each queue a weight of 1, which means that logically only 1 bit is
 transmitted from each queue each time around. This results in each flow
-getting $$1/n$$th of the bandwidth when there are $$n$$ flows. With WFQ,
+getting $$1/n^{th}$$ of the bandwidth when there are $$n$$ flows. With WFQ,
 however, one queue might have a weight of 2, a second queue might have a
 weight of 1, and a third queue might have a weight of 3. Assuming that
 each queue always contains a packet waiting to be transmitted, the first
