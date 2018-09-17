@@ -32,9 +32,7 @@ Integrated Services (IntServ) approach allows individual application
 flows to specify their needs to the routers using an explicit signalling
 mechanism (RSVP), while Differentiated Services (DiffServ) assigns
 packets into a small number of classes that receive differentiated
-treatment in the routers. Differentiated Services is by far the more
-widely deployed approach, and yet neither DiffServ nor IntServ has seen
-much deployment in the public Internet.
+treatment in the routers.
 
 ## Further Reading
 

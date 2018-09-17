@@ -1,27 +1,25 @@
 # {{ page.title }}
 
-For many years, packet-switched networks have offered the promise of
-supporting multimedia applications that combine audio, video, and data.
-After all, once digitized, audio and video information becomes like any
-other form of data—a stream of bits to be transmitted. One obstacle to
-the fulfillment of this promise has been the need for higher-bandwidth
-links. Recently, however, improvements in coding have reduced the
-bandwidth needs of audio and video applications, while at the same time
-link speeds have increased.
+The promise of general-purpose packet-switched networks is that they
+support all kinds of applications and data, including multimedia
+applications that transmit digitized audio and video streams. In the
+early days, one obstacle to the fulfillment of this promise was the
+need for higher-bandwidth links. That is no longer an issue, but
+there is more to transmitting audio and video over a network than just
+providing sufficient bandwidth.
 
-There is more to transmitting audio and video over a network than just
-providing sufficient bandwidth, however. Participants in a telephone
-conversation, for example, expect to be able to converse in such a way
-that one person can respond to something said by the other and be heard
-almost immediately. Thus, the timeliness of delivery can be very
-important. We refer to applications that are sensitive to the timeliness
-of data as *real-time applications*. Voice and video applications tend
-to be the canonical examples, but there are others such as industrial
-control—you would like a command sent to a robot arm to reach it
-before the arm crashes into something. Even file transfer applications
-can have timeliness constraints, such as a requirement that a database
-update complete overnight before the business that needs the data
-resumes on the next day.
+Participants in a telephone conversation, for example, expect to be
+able to converse in such a way that one person can respond to
+something said by the other and be heard almost immediately. Thus, the
+timeliness of delivery can be very important. We refer to applications
+that are sensitive to the timeliness of data as *real-time
+applications*. Voice and video applications tend to be the canonical
+examples, but there are others such as industrial control—you would
+like a command sent to a robot arm to reach it before the arm crashes
+into something. Even file transfer applications can have timeliness
+constraints, such as a requirement that a database update complete
+overnight before the business that needs the data resumes on the next
+day.
 
 The distinguishing characteristic of real-time applications is that they
 need some sort of assurance *from the network* that data is likely to
@@ -38,24 +36,13 @@ is a new service model, in which applications that need higher
 assurances can ask the network for them. The network may then respond by
 providing an assurance that it will do better or perhaps by saying that
 it cannot promise anything better at the moment. Note that such a
-service model is a superset of the current model: Applications that are
+service model is a superset of the original model: Applications that are
 happy with best-effort service should be able to use the new service
 model; their requirements are just less stringent. This implies that the
 network will treat some packets differently from others—something that
 is not done in the best-effort model. A network that can provide these
 different levels of service is often said to support quality of
 service (QoS).
-
-At this point, you might be thinking "Hold on. Doesn't the Internet
-already support real-time applications?" Most of us have tried some sort
-of Internet telephony application such as Skype at this point, and it
-seems to work OK. The reason for this, in part, is because best-effort
-service is often quite good. (Skype in particular also does a number of
-clever things to try to deal with lack of QoS in the Internet.) The key
-word here is "often." If you want a service that is *reliably* good
-enough for your real-time applications, then best-effort—which by
-definition makes no assurances—won't be sufficient. We'll return later
-to the topic of just how necessary QoS really is.
 
 ## Application Requirements
 
@@ -65,16 +52,16 @@ understand what the needs of those applications are. To begin, we can
 divide applications into two types: real-time and non-real-time. The
 latter are sometimes called *traditional data* applications, since they
 have traditionally been the major applications found on data networks.
-They include most popular applications like telnet, FTP, email, web
-browsing, and so on. All of these applications can work without
+They include most popular applications like SSH, file transfer, email,
+web browsing, and so on. All of these applications can work without
 guarantees of timely delivery of data. Another term for this
 non-real-time class of applications is *elastic*, since they are able to
 stretch gracefully in the face of increased delay. Note that these
 applications can benefit from shorter-length delays, but they do not
 become unusable as delays increase. Also note that their delay
-requirements vary from the interactive applications like telnet to more
-asynchronous ones like email, with interactive bulk transfers like FTP
-in the middle.
+requirements vary from the interactive applications like SSH to more
+asynchronous ones like email, with interactive bulk transfers like file
+transfer in the middle.
 
 <figure class="line">
 	<a id="audio"></a>
@@ -103,7 +90,7 @@ worthlessness of late data that characterizes real-time applications. In
 elastic applications, it might be nice if data turns up on time, but we
 can still use it when it does not.
 
-One way to make our voice application work would be to make sure that
+One way to make our voice application work would be to make sure
 all samples take exactly the same amount of time to traverse the
 network. Then, since samples are injected at a rate of one per
 125 $$\mu$$s, they will appear at the receiver at the same rate, ready to
@@ -201,8 +188,9 @@ arm to stop is unacceptable. Thus, we can categorize real-time
 applications as *tolerant* or *intolerant* depending on whether they can
 tolerate occasional loss. (As an aside, note that many real-time
 applications are more tolerant of occasional loss than non-real-time
-applications; for example, compare our audio application to FTP, where
-the uncorrected loss of one bit might render a file completely useless.)
+applications; for example, compare our audio application to file
+transfer, where the uncorrected loss of one bit might render a file
+completely useless.)
 
 A second way to characterize real-time applications is by their
 adaptability. For example, an audio application might be able to adapt
@@ -260,10 +248,9 @@ service. These can be divided into two broad categories:
 
 In the first category, we find *Integrated Services*, a QoS architecture
 developed in the IETF and often associated with the Resource Reservation
-Protocol (RSVP); ATM's approach to QoS was also in this category. In the
-second category lies *Differentiated Services*, which is probably the
-most widely deployed QoS mechanism at the time of writing. We discuss
-these in turn in the next two subsections.
+Protocol (RSVP). In the second category lies *Differentiated
+Services*, which is probably the most widely deployed QoS mechanism
+today. We discuss these in turn in the next two subsections.
 
 Finally, as we suggested at the start of this section, adding QoS
 support to the network isn't necessarily the entire story about
@@ -436,7 +423,7 @@ average rate, flow B can be described by a token bucket with a rate of
 least 1 MB, so that it can store up tokens while it sends at less than
 1 MBps to be used when it sends at 2 MBps. For the first 2 seconds in
 this example, it receives tokens at a rate of 1 MBps but spends them at
-only 0.5 MBps, so it can save up $$2\times$$ 0.5 = 1 MB of tokens, which
+only 0.5 MBps, so it can save up 2 $$\times$$ 0.5 = 1 MB of tokens, which
 it then spends in the third second (along with the new tokens that
 continue to accrue in that second) to send data at 2 MBps. At the end of
 the third second, having spent the excess tokens, it starts to save them
@@ -714,10 +701,10 @@ don't make arbitrarily large reservations for long periods of time.
 > the only way to push back, and per-call billing is believed to be 
 > one of the major costs of operating the phone network. 
 
-These scalability concerns have, at the time of writing, prevented the
-widespread deployment of IntServ. Because of these concerns, other
-approaches that do not require so much "per-flow" state have been
-developed. The next section discusses a number of such approaches.
+These scalability concerns have limited widespread deployment of
+IntServ. Because of these concerns, other approaches that do not
+require so much "per-flow" state have been developed. The next section
+discusses a number of such approaches.
 
 ## Differentiated Services (EF, AF)
 
@@ -928,7 +915,7 @@ timeout events. One of the strengths of this approach is that it does
 not require cooperation from the network's routers; it is a purely
 host-based strategy. Such a strategy complements the QoS mechanisms
 we've been considering, because (1) applications can use host-based
-solutions today, before QoS mechanisms are widely deployed, and (2) even
+solutions without depending on router support, and (2) even
 with DiffServ fully deployed, it is still possible for a router queue to
 be oversubscribed, and we would like real-time applications to react in
 a reasonable way should this happen.
