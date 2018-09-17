@@ -343,9 +343,9 @@ connection has the potential to lose up to 500 KB of data at the
 beginning of each connection. Of course, this assumes that both the
 source and the destination implement the "big windows" extension.
 
-Some protocol designers have proposed alternatives to slow start,
-whereby the source tries to estimate the available bandwidth by more
-sophisticated means. One example is called *quick-start*. The basic
+Alternatives to slow start, whereby the source tries to estimate the
+available bandwidth by more sophisticated means, have also been
+explored. One example is called *quick-start*. The basic
 idea is that a TCP sender can ask for an initial sending rate greater
 than slow start would allow by putting a requested rate in its SYN
 packet as an IP option. Routers along the path can examine the option,
@@ -437,9 +437,9 @@ coarse-grained timeouts. This is because for a small window size there
 will not be enough packets in transit to cause enough duplicate ACKs to
 be delivered. Given enough lost packets—for example, as happens during
 the initial slow start phase—the sliding window algorithm eventually
-blocks the sender until a timeout occurs. Given the current 64-KB
-maximum advertised window size, TCP's fast retransmit mechanism is able
-to detect up to three dropped packets per window in practice.
+blocks the sender until a timeout occurs. In practice, TCP's fast
+retransmit mechanism can detect up to three dropped packets per
+window.
 
 Finally, there is one last improvement we can make. When the fast
 retransmit mechanism signals congestion, rather than drop the congestion

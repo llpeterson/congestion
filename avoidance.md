@@ -97,7 +97,7 @@ this will mean it does not have to drop lots of packets later on.
 Note that RED is also sometimes used with an explicit feedback
 scheme simply by *marking* a packet instead of *dropping* it.
 This feedback mechanism is implemented by treating two bits
-in the IP TOS field as Explicit Congestion Notification (ECN) bits.
+in the IP `TOS` field as Explicit Congestion Notification (ECN) bits.
 One bit is set by the source to indicate that it is ECN-capable,
 that is, able to react to a congestion notification. The other bit
 is set by routers along the end-to-end path when congestion is
@@ -319,14 +319,14 @@ unresponsive to the initial hints that it sends.
 
 ## Source-Based Congestion Avoidance
 
-Unlike the two previous congestion-avoidance schemes, which depended on
-new mechanisms in the routers, we now describe a strategy for detecting
+Unlike the two previous congestion-avoidance schemes, which depended
+on cooperation from routers, we now describe a strategy for detecting
 the incipient stages of congestion—before losses occur—from the end
 hosts. We first give a brief overview of a collection of related
 mechanisms that use different information to detect the early stages of
 congestion, and then we describe a specific mechanism in some detail.
 
-The general idea of these techniques is to watch for some sign from the
+The general idea of these techniques is to watch for a sign from the
 network that some router's queue is building up and that congestion will
 happen soon if nothing is done about it. For example, the source might
 notice that as packet queues build up in the network's routers, there is
@@ -368,7 +368,8 @@ However, it differs from the third algorithm in the way it calculates
 throughput, and instead of looking for a change in the slope of the
 throughput it compares the measured throughput rate with an expected
 throughput rate. The algorithm, TCP Vegas, is not widely deployed in the
-Internet, but the strategy it takes continues to be studied.
+Internet, but the strategy it uses has been adopted by other
+implementations that are now being deployed.
 
 The intuition behind the Vegas algorithm can be seen in the trace of
 standard TCP given in [Figure 5](#trace3). The top graph shown in
