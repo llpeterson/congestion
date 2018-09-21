@@ -14,8 +14,10 @@ bandwidth of the links and the buffers on the routers or switches where
 packets are queued awaiting transmission. Packets *contend* at a router
 for the use of a link, with each contending packet placed in a queue
 waiting its turn to be transmitted over the link. When too many packets
-are contending for the same link, the queue overflows and packets have
-to be dropped. When such drops become common events, the network is said
+are contending for the same link, the queue fills and two undesirable
+things happen: packets experience increased end-to-end delay, and in
+the worst case, the queue overflows and packets have to be dropped.
+When long queues persist and drops become common, the network is said
 to be *congested*. Most networks provide a *congestion-control*
 mechanism to deal with just such a situation.
 
