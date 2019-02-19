@@ -495,11 +495,12 @@ when close to W$$_{max}$$, and then increase the growth rate as you
 move away from W$$_{max}$$. The latter phase is essentially probing
 for a new achievable W$$_{max}$$.
 
-Specifically, CUBIC computes the congestion window as a function
-of time (t) since the last congestion event
+Specifically, CUBIC computes the congestion window, denoted
+W$$_{cubic}$$, as a function of time (t) since the last congestion
+event
 
 $$
-CWND(t) = C \times (t-K)^{3} + W_{max}
+W_{cubic}(t) = C \times (t-K)^{3} + W_{max}
 $$
 
 where
