@@ -477,7 +477,7 @@ ACKs arriving more frequently.
 
 <figure class="line">
 	<a id="cubic"></a>
-	<img src="figures/tcp/slide1.png" width="600px"/>
+	<img src="figures/tcp/slide1.png" width="500px"/>
 	<figcaption>Generic cubic function illustrsting the change in the congestion 
 	window as a function of time.</figcaption>
 </figure>
@@ -505,7 +505,7 @@ $$
 where
 
 $$
-K =  \sqrt[3]{(W_{max} \times (1 - \beta)/C)}
+K =  \sqrt[3]{W_{max} \times (1 - \beta{})/C}
 $$
 
 $$C$$ is a scaling constant and $$\beta$$ is the multiplicative decrease
