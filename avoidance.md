@@ -317,14 +317,14 @@ classes of traffic from others. There is also the possibility that a
 variant of RED could drop more heavily from flows that are
 unresponsive to the initial hints that it sends.
 
-## Source-Based Congestion Avoidance
+## Source-Based Congestion Avoidance (Vegas, BBR)
 
 Unlike the two previous congestion-avoidance schemes, which depended
 on cooperation from routers, we now describe a strategy for detecting
 the incipient stages of congestion—before losses occur—from the end
 hosts. We first give a brief overview of a collection of related
 mechanisms that use different information to detect the early stages of
-congestion, and then we describe a specific mechanism in some detail.
+congestion, and then we describe two specific mechanisms in some detail.
 
 The general idea of these techniques is to watch for a sign from the
 network that some router's queue is building up and that congestion will
@@ -361,14 +361,16 @@ of the connection—the algorithm decreases the window by one packet.
 This scheme calculates the throughput by dividing the number of bytes
 outstanding in the network by the RTT.
 
-A fourth mechanism, the one we are going to describe in more detail, is
-similar to this last algorithm in that it looks at changes in the
-throughput rate or, more specifically, changes in the sending rate.
-However, it differs from the third algorithm in the way it calculates
-throughput, and instead of looking for a change in the slope of the
-throughput it compares the measured throughput rate with an expected
-throughput rate. The algorithm, TCP Vegas, is not widely deployed in the
-Internet, but the strategy it uses has been adopted by other
+### TCP Vegas
+
+The mechanism we are going to describe in more detail is similar to
+the last algorithm in that it looks at changes in the throughput rate
+or, more specifically, changes in the sending rate. However, it
+differs from the previous algorithm in the way it calculates throughput,
+and instead of looking for a change in the slope of the throughput it
+compares the measured throughput rate with an expected throughput
+rate. The algorithm, TCP Vegas, is not widely deployed in the
+Internet today, but the strategy it uses has been adopted by other
 implementations that are now being deployed.
 
 The intuition behind the Vegas algorithm can be seen in the trace of
@@ -511,3 +513,34 @@ Vegas does use multiplicative decrease when a timeout occurs; the linear
 decrease just described is an *early* decrease in the congestion window
 that should happen before congestion occurs and packets start being
 dropped.
+
+### TCP BBR
+
+BBR (Bottleneck Bandwidth and RTT) is a new TCP congestion control
+algorithm developed by researchers at Google. Like Vegas, BBR is delay
+based, which means it tries to detect buffer growth so as to avoid
+congestion and packet loss. Both BBR and Vegas use the minimum RTT and
+maximum RTT, as calculated over some time interval, as their main
+control signals.
+
+BBR also introduces new mechanisms to improve performance, including
+packet pacing, bandwidth probing, and RTT probing. Packet pacing
+spaces the packets based on the estimate of the available
+bandwidth. This eliminates bursts and unnecessary queueing, which
+results in a better feedback signal. BBR also periodically increases
+its rate, thereby probing the available bandwidth. Similarly, BBR
+periodically decreases its rate, thereby probing for a new minimum
+RTT. The RTT probing mechanism attempts to be self-synchronizing,
+which is to say, when there are multiple BBR flows, their respective
+RTT probes happen at the same time. This gives a more accurate view of
+the actual uncongested path RTT, which solves one of the major issues
+with delay-based congestion control mechanisms: having accurate
+knowledge of the uncongested path RTT.
+
+BBR is actively being worked on and is rapidly evolving. One major
+focus is fairness. For example, some experiments show CUBIC flows get
+100x less bandwidth when competing with BBR flows, and other
+experiments show that unfairness among BBR flows is even
+possible. Another major focus is avoiding high retransmission rates,
+where in some cases as many as 10% of packets are retransmitted due to
+non-congestion related factors.

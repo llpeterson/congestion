@@ -417,10 +417,10 @@ everything up to and including packet 6 back to the source.
 <figure class="line">
 	<a id="trace2"></a>
 	<img src="figures/f06-13-9780123850591.png" width="600px"/>
-	<figcaption>Trace of TCP with fast retransmit. Colored line
-	= CongestionWindow; solid bullet = timeout; hash marks = time
-	when each packet is transmitted; vertical bars = time when a
-	packet that was eventually retransmitted was first
+	<figcaption>Trace of TCP with fast retransmit. Colored line 
+	= CongestionWindow; solid bullet = timeout; hash marks = time 
+	when each packet is transmitted; vertical bars = time when a 
+	packet that was eventually retransmitted was first 
 	transmitted.</figcaption>
 </figure>
 
@@ -455,3 +455,62 @@ words, slow start is only used at the beginning of a connection and
 whenever a coarse-grained timeout occurs. At all other times, the
 congestion window is following a pure additive increase/multiplicative
 decrease pattern.
+
+## TCP CUBIC
+
+A variant of the standard TCP algorithm just described, called CUBIC,
+is the default congestion control algorithm distributed with Linux.
+CUBIC’s primary goal is to support networks with large delay $$\times$$
+bandwidth products, which are sometimes called *long-fat networks*.
+Such networks suffer from the original TCP algorithm requiring too many
+round-trips to reach the available capacity of the end-to-end path.
+CUBIC does this by being more aggressive in how it increases the
+window size, but of course the trick is to be more aggressive without
+being so aggressive as to adversely affect other flows.
+
+One important aspect of CUBIC’s approach is to adjust its congestion
+window at regular intervals, based on the amount of time that has
+elapsed since the last congestion event, rather than only when ACKs
+arrive (the latter being a function of RTT). This allows CUBIC to
+behave fairly when competing with short-RTT flows, which will have
+ACKs arriving more frequently.
+
+<figure class="line">
+	<a id="cubic"></a>
+	<img src="figures/tcp/slide1.png" width="600px"/>
+	<figcaption>Generic cubic function illustrsting the change in the congestion 
+	window as a function of time.</figcaption>
+</figure>
+
+The second important aspect of CUBIC is its use of a cubic function to
+adjust the congestion window. The basic idea is easiest to understand
+by looking at the general shape of a cubic function, which has three
+phases: slowing growth, flatten plateau, increasing growth. A generic
+example is shown in [Figure 7](#cubic), which we have annotated with
+one extra piece of information: the maximum congestion window size
+achieved just before the last congestion event as a target (denoted
+W$$_{max}$$). The idea is to start fast but slow the growth rate as
+you get close to W$$_{max}$$, be cautious and have near-zero growth
+when close to W$$_{max}$$, and then increase the growth rate as you
+move away from W$$_{max}$$. The latter phase is essentially probing
+for a new achievable W$$_{max}$$.
+
+Specifically, CUBIC computes the congestion window as a function
+of time (t) since the last congestion event
+
+$$
+CWND(t) = C \times (t-K)^{3} + W_{max}
+$$
+
+where
+
+$$
+K =  \sqrt[3]{(W_{max} \times (1 - \beta)/C)}
+$$
+
+$$C$$ is a scaling constant and $$\beta$$ is the multiplicative decrease
+factor. Looking back at [Figure 7](#cubic), CUBIC is often described as
+shifting between a concave function to being convex (whereas standard
+TCP's additive function is only convex).
+
+
