@@ -330,10 +330,10 @@ a more explicit congestion signal.
 
 That is, instead of *dropping* a packet and assuming TCP will
 eventually notice (e.g., due to the arrival of a a duplicate ACK), RED
-(or any AQM algorithm) can do a better job if it instead *marks* the
-packet and continues to send it along its way to the destination.
-This idea was codified in changes to the IP and TCP headers known as
-*Explicit Congestion Notification* (ECN).
+(or any AQM algorithm for that matter) can do a better job if it
+instead *marks* the packet and continues to send it along its way to
+the destination. This idea was codified in changes to the IP and TCP
+headers known as *Explicit Congestion Notification* (ECN).
 
 Specifically, this feedback is implemented by treating two bits 
 in the IP `TOS` field as ECN bits. One bit is set by the source to
@@ -348,8 +348,9 @@ In addition to these two bits in the IP header (which are
 transport-agnostic), ECN also includes the addition of two optional
 flags to the TCP header. The first, `ECE` (ECN-Echo), communicates
 from the receiver to the sender that it has received a packet with the
-CE bit set. The second, `CWR` (Congestion Window Reduced) communicates
-from the sender to the receiver that it has reduced the congestion window.
+`CE` bit set. The second, `CWR` (Congestion Window Reduced)
+communicates from the sender to the receiver that it has reduced the
+congestion window.
 
 While ECN is now the standard interpretation of two of the eight bits
 in the `TOS` field of the IP header and support for ECN is highly
