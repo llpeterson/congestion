@@ -13,14 +13,27 @@ just before packets start being discarded. We call such a strategy
 but it's probably most accurate to think of "avoidance" as a subset
 of "control."
 
-This section describes three different congestion-avoidance mechanisms.
-The first two take a similar approach: They put a small amount of
-additional functionality into the router to assist the end node in the
-anticipation of congestion. The third mechanism is very different from
-the first two: It attempts to avoid congestion purely from the end
-nodes.
+This section describes two different approaches to congestion-avoidance.
+The first puts a small amount of additional functionality into the
+router to assist the end node in the anticipation of congestion. This
+approach is often referred to as *Active Queue Management*  (AQM).
+The second approach attempts to avoid congestion purely from the end
+hosts. This approach is implemented in TCP, making it variant of
+the congestion control mechainsms described in the previous section.
 
-## DECbit
+## Active Queue Management (DECbit, RED, ECN)
+
+The first approach requires changes to routers, which has never been
+the Internet's preferred way of introducing new features, but
+nonetheless, has been a constant source of consternation over the last
+20 years. The problem is that while it's generally agreed that routers
+are in an ideal position to detect the onset of congestion—i.e., their
+queues start to fill up—there has not been a consensus on exactly what
+the best algorithm is. The following describes two of the classic
+mechanisms, and concludes with a brief discussion of where things
+stand today.
+
+### DECbit
 
 The first mechanism was developed for use on the Digital Network
 Architecture (DNA), a connectionless network with a connection-oriented
@@ -70,7 +83,7 @@ the power curve. The "increase by 1, decrease by 0.875" rule was
 selected because additive increase/multiplicative decrease makes the
 mechanism stable.
 
-## Random Early Detection (RED)
+### Random Early Detection
 
 A second mechanism, called *random early detection* (RED), is similar to
 the DECbit scheme in that each router is programmed to monitor its own
@@ -93,18 +106,6 @@ congestion window sooner than it would normally have. In other words,
 the router drops a few packets before it has exhausted its buffer space
 completely, so as to cause the source to slow down, with the hope that
 this will mean it does not have to drop lots of packets later on.
-
-Note that RED is also sometimes used with an explicit feedback
-scheme simply by *marking* a packet instead of *dropping* it.
-This feedback mechanism is implemented by treating two bits
-in the IP `TOS` field as Explicit Congestion Notification (ECN) bits.
-One bit is set by the source to indicate that it is ECN-capable,
-that is, able to react to a congestion notification. The other bit
-is set by routers along the end-to-end path when congestion is
-encountered, as indicated by the RED algorithm. The latter bit is
-also echoed back to the source by the destination host. TCP running
-on the source responds to the ECN bit set in exactly the same way it
-responds to a dropped packet.
 
 The second difference between RED and DECbit is in the details of how
 RED decides when to drop a packet and what packet it decides to drop. To
@@ -317,14 +318,48 @@ classes of traffic from others. There is also the possibility that a
 variant of RED could drop more heavily from flows that are
 unresponsive to the initial hints that it sends.
 
+### Explicit Congestion Notification
+
+RED is the most extensively studied AQM mechanism, but it has not been
+widely deployed, due in part to the fact that it does not result in
+ideal behavior in all circumstances. It is, however, the benchmark for
+understanding AQM behavior. The other thing that came out of RED is
+the recognition that TCP could do a better job if routers were to send
+a more explicit congestion signal.
+
+That is, instead of *dropping* a packet and assuming TCP will
+eventually notice (e.g., due to the arrival of a a duplicate ACK), RED
+(or any AQM algorithm) can do a better job if it instead *marks* the
+packet and continues to send it along its way. This idea was codified
+in a change to the IP header known as the *Explicit Congestion
+Notification* (ECN).
+
+Specifically, this feedback is implemented by treating two bits 
+in the IP `TOS` field as ECN bits. One bit is set by the source to
+indicate that it is ECN-capable, that is, able to react to a
+congestion notification. The other bit is set by routers along the
+end-to-end path when congestion is encountered, as indicated by
+whatever AQM algorithm it is running. The latter bit is also echoed
+back to the source by the destination host. TCP running on the source
+responds to the ECN bit set in exactly the same way it responds to a
+dropped packet.
+
+While ECN is now the standard interpretation of two of the three bits
+in the `TOS` field of the IP header and support for ECN is highly
+recommended, it is not required. Moreover, there is no single
+recommended AQM algorithm, but instead, there is a list of
+requirements a good AQM algorithm should meet. Like TCP congestion
+control algorithms, every AQM algorithm has its advantages and
+disadvantages, and so we need lots of them.
+
 ## Source-Based Congestion Avoidance (Vegas, BBR)
 
-Unlike the two previous congestion-avoidance schemes, which depended
+Unlike the previous congestion-avoidance schemes, which depended
 on cooperation from routers, we now describe a strategy for detecting
 the incipient stages of congestion—before losses occur—from the end
 hosts. We first give a brief overview of a collection of related
 mechanisms that use different information to detect the early stages of
-congestion, and then we describe two specific mechanisms in some detail.
+congestion, and then we describe two specific mechanisms in more detail.
 
 The general idea of these techniques is to watch for a sign from the
 network that some router's queue is building up and that congestion will
