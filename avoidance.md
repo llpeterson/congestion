@@ -537,10 +537,9 @@ the actual uncongested path RTT, which solves one of the major issues
 with delay-based congestion control mechanisms: having accurate
 knowledge of the uncongested path RTT.
 
-BBR is actively being worked on and is rapidly evolving. One major
+BBR is actively being worked on and rapidly evolving. One major
 focus is fairness. For example, some experiments show CUBIC flows get
 100x less bandwidth when competing with BBR flows, and other
 experiments show that unfairness among BBR flows is even
 possible. Another major focus is avoiding high retransmission rates,
-where in some cases as many as 10% of packets are retransmitted due to
-non-congestion related factors.
+where in some cases as many as 10% of packets are retransmitted.

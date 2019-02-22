@@ -470,10 +470,10 @@ being so aggressive as to adversely affect other flows.
 
 One important aspect of CUBIC’s approach is to adjust its congestion
 window at regular intervals, based on the amount of time that has
-elapsed since the last congestion event, rather than only when ACKs
-arrive (the latter being a function of RTT). This allows CUBIC to
-behave fairly when competing with short-RTT flows, which will have
-ACKs arriving more frequently.
+elapsed since the last congestion event (e.g., the arrival of a
+duplicate ACK), rather than only when ACKs arrive (the latter being a
+function of RTT). This allows CUBIC to behave fairly when competing
+with short-RTT flows, which will have ACKs arriving more frequently.
 
 <figure class="line">
 	<a id="cubic"></a>
@@ -499,17 +499,18 @@ Specifically, CUBIC computes the congestion window as a function of
 time (t) since the last congestion event
 
 $$
-\mathsf{CWND}(t) = C \times (t-K)^{3} + W_{max}
+\mathsf{CWND(t)} = \mathsf{C} \times \mathsf{(t-K)}^{3} + \mathsf{W}_{max}
 $$
 
 where
 
 $$
-K =  \sqrt[3]{W_{max} \times (1 - \beta{})/C}
+\mathsf{K} =  \sqrt[3]{\mathsf{W}_{max} \times (1 - \beta{})/\mathsf{C}}
 $$
 
-$$C$$ is a scaling constant and $$\beta$$ is the multiplicative decrease
-factor. Looking back at [Figure 7](#cubic), CUBIC is often described as
+C is a scaling constant and $$\beta$$ is the multiplicative decrease
+factor. CUBIC sets the latter to 0.7 rather than the 0.5 that standard
+TCP uses. Looking back at [Figure 7](#cubic), CUBIC is often described as
 shifting between a concave function to being convex (whereas standard
 TCP's additive function is only convex).
 
