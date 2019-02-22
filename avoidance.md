@@ -1,19 +1,20 @@
 # {{ page.title }}
 
-It is important to understand that TCP's strategy is to control
-congestion once it happens, as opposed to trying to avoid congestion in
-the first place. In fact, TCP repeatedly increases the load it imposes
-on the network in an effort to find the point at which congestion
-occurs, and then it backs off from this point. Said another way, TCP
-*needs* to create losses to find the available bandwidth of the
-connection. An appealing alternative is to predict when congestion is
-about to happen and then to reduce the rate at which hosts send data
-just before packets start being discarded. We call such a strategy
+This section explores congestion control more deeply. In doing so,
+it is important to understand that the standard TCP's strategy is to
+control congestion once it happens, as opposed to trying to avoid
+congestion in the first place. In fact, TCP repeatedly increases the
+load it imposes on the network in an effort to find the point at which
+congestion occurs, and then it backs off from this point. Said another
+way, TCP *needs* to create losses to find the available bandwidth of
+the connection. An appealing alternative is to predict when congestion
+is about to happen and then to reduce the rate at which hosts send
+data just before packets start being discarded. We call such a strategy
 *congestion avoidance* to distinguish it from *congestion control*,
 but it's probably most accurate to think of "avoidance" as a subset
 of "control."
 
-This section describes two different approaches to congestion-avoidance.
+We describe two different approaches to congestion-avoidance.
 The first puts a small amount of additional functionality into the
 router to assist the end node in the anticipation of congestion. This
 approach is often referred to as *Active Queue Management*  (AQM).
@@ -330,21 +331,18 @@ a more explicit congestion signal.
 That is, instead of *dropping* a packet and assuming TCP will
 eventually notice (e.g., due to the arrival of a a duplicate ACK), RED
 (or any AQM algorithm) can do a better job if it instead *marks* the
-packet and continues to send it along its way. This idea was codified
-in a change to the IP header known as the *Explicit Congestion
-Notification* (ECN).
+packet and continues to send it along its way to the destination.
+This idea was codified in changes to the IP and TCP headers known as
+*Explicit Congestion Notification* (ECN).
 
 Specifically, this feedback is implemented by treating two bits 
 in the IP `TOS` field as ECN bits. One bit is set by the source to
 indicate that it is ECN-capable, that is, able to react to a
 congestion notification. This is called the `ECT` bit (ECN-Capable
 Transport). The other bit is set by routers along the
-end-to-end path when congestion is encountered, as indicated by
+end-to-end path when congestion is encountered, as computed by
 whatever AQM algorithm it is running. This is called the `CE` bit
-(Congestion Encountered). The latter bit is also echoed back to the
-source by the destination host. TCP running on the source responds to
-the ECN bit set in exactly the same way it responds to a dropped
-packet.
+(Congestion Encountered).
 
 In addition to these two bits in the IP header (which are
 transport-agnostic), ECN also includes the addition of two optional
@@ -359,12 +357,12 @@ recommended, it is not required. Moreover, there is no single
 recommended AQM algorithm, but instead, there is a list of
 requirements a good AQM algorithm should meet. Like TCP congestion
 control algorithms, every AQM algorithm has its advantages and
-disadvantages, and so we need lots of them. There is one particular
+disadvantages, and so we need a lot of them. There is one particular
 scenario, however, where the TCP congestion control algorithm
 and AQM algorithm are designed to work in concert: the datacenter.
 We return to this use case at the end of this section.
 
-## Source-Based Congestion Avoidance (Vegas, BBR, DCTCP)
+## Source-Based Approaches (Vegas, BBR, DCTCP)
 
 Unlike the previous congestion-avoidance schemes, which depended
 on cooperation from routers, we now describe a strategy for detecting
@@ -602,7 +600,7 @@ to deploy a tailor-made version of TCP that does not need to worry
 about treating other TCP flows fairly. Datacenters are also unique in
 that they are built using low-cost white-box switches, and because
 there is no need to worry about long-fat pipes spanning a continent,
-they typically do not have an excess of buffers.
+the switches are typically provisioned without an excess of buffers.
 
 The idea is straightforward. DCTCP adapts ECN by estimating the
 fraction of bytes that encounter congestion rather than simply
@@ -612,20 +610,20 @@ The standard TCP algorithm still kicks in should a packet actually be
 lost. The approach is designed to achieve high-burst tolerance, low
 latency, and high throughput with shallow-buffered switches. 
 
-The key is how DCTCP estimates the fraction of bytes encountering
-congestion. Each switch is simple. If a packet arrives and the switch
-sees the queue length (K) is above some threshold; e.g.,
+The key challenge DCTCP faces is to estimate the fraction of bytes
+encountering congestion. Each switch is simple. If a packet arrives
+and the switch sees the queue length (K) is above some threshold; e.g.,
 
 $$
 \mathsf{K} > (\mathsf{RTT} \times \mathsf{C})/7
 $$
 
 where C is the link rate in packets per second, then the switch
-sets the CE bit in the IP header.
+sets the CE bit in the IP header. The complexity of RED is not required.
 
-The receiver then maintains a boolean state variable, which we'll
-denote `SeenCE`, and implements the following simple state machine in
-response to every received packet:
+The receiver then maintains a boolean variable for every flow,
+which we'll denote `SeenCE`, and implements the following state
+machine in response to every received packet:
 
 - If the CE bit is set and `SeenCE=False`, set `SeenCE` to True and
 send an immediate ACK.
@@ -636,18 +634,17 @@ and send an immediate ACK.
 - Otherwise, ignore the CE bit.
 
 The non-obvious consequence of the "otherwise" case is that the
-receiver continues to send delayed ACKs once every $$n$$ packets, even
-when receiving packets with the CE bit set. This has proven important
-to maintain high performance in a datacenter.
+receiver continues to send delayed ACKs once every $$n$$ packets,
+whether or not the CE bit is set. This has proven important
+to maintaining high performance.
 
 Finally, the sender computes the fraction of bytes that encountered
 congestion during the previous observation window (usually chosen to
 be approximately the RTT), as the ratio of the total bytes transmitted
 and the bytes acknowledged with the ECE flag set. DCTCP grows the
 congestion window in exactly the same way as the standard algorithm,
-but it reduces the window propotional to how many bytes encountered
+but it reduces the window in propotion to how many bytes encountered
 congestion during the last observation window.
-
 
 
 
