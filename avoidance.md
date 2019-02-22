@@ -337,22 +337,34 @@ Notification* (ECN).
 Specifically, this feedback is implemented by treating two bits 
 in the IP `TOS` field as ECN bits. One bit is set by the source to
 indicate that it is ECN-capable, that is, able to react to a
-congestion notification. The other bit is set by routers along the
+congestion notification. This is called the `ECT` bit (ECN-Capable
+Transport). The other bit is set by routers along the
 end-to-end path when congestion is encountered, as indicated by
-whatever AQM algorithm it is running. The latter bit is also echoed
-back to the source by the destination host. TCP running on the source
-responds to the ECN bit set in exactly the same way it responds to a
-dropped packet.
+whatever AQM algorithm it is running. This is called the `CE` bit
+(Congestion Encountered). The latter bit is also echoed back to the
+source by the destination host. TCP running on the source responds to
+the ECN bit set in exactly the same way it responds to a dropped
+packet.
 
-While ECN is now the standard interpretation of two of the four bits
+In addition to these two bits in the IP header (which are
+transport-agnostic), ECN also includes the addition of two optional
+flags to the TCP header. The first, `ECE` (ECN-Echo), communicates
+from the receiver to the sender that it has received a packet with the
+CE bit set. The second, `CWR` (Congestion Window Reduced) communicates
+from the sender to the receiver that it has reduced the congestion window.
+
+While ECN is now the standard interpretation of two of the eight bits
 in the `TOS` field of the IP header and support for ECN is highly
 recommended, it is not required. Moreover, there is no single
 recommended AQM algorithm, but instead, there is a list of
 requirements a good AQM algorithm should meet. Like TCP congestion
 control algorithms, every AQM algorithm has its advantages and
-disadvantages, and so we need lots of them.
+disadvantages, and so we need lots of them. There is one particular
+scenario, however, where the TCP congestion control algorithm
+and AQM algorithm are designed to work in concert: the datacenter.
+We return to this use case at the end of this section.
 
-## Source-Based Congestion Avoidance (Vegas, BBR)
+## Source-Based Congestion Avoidance (Vegas, BBR, DCTCP)
 
 Unlike the previous congestion-avoidance schemes, which depended
 on cooperation from routers, we now describe a strategy for detecting
@@ -578,3 +590,66 @@ focus is fairness. For example, some experiments show CUBIC flows get
 experiments show that unfairness among BBR flows is even
 possible. Another major focus is avoiding high retransmission rates,
 where in some cases as many as 10% of packets are retransmitted.
+
+### DCTCP
+
+We conclude with an example of a situation where a variant of the TCP
+congestion control algorithm has been designed to work in concert with
+ECN: in cloud datacenters. The combination is
+called DCTCP, which stands for *Data Center TCP*. The situation is
+unique in that a datacenter is self-contained, and so it is possible
+to deploy a tailor-made version of TCP that does not need to worry
+about treating other TCP flows fairly. Datacenters are also unique in
+that they are built using low-cost white-box switches, and because
+there is no need to worry about long-fat pipes spanning a continent,
+they typically do not have an excess of buffers.
+
+The idea is straightforward. DCTCP adapts ECN by estimating the
+fraction of bytes that encounter congestion rather than simply
+detecting that some congestion is about to occur. At the end hosts,
+DCTCP then scales the congestion window based on this estimate.
+The standard TCP algorithm still kicks in should a packet actually be
+lost. The approach is designed to achieve high-burst tolerance, low
+latency, and high throughput with shallow-buffered switches. 
+
+The key is how DCTCP estimates the fraction of bytes encountering
+congestion. Each switch is simple. If a packet arrives and the switch
+sees the queue length (K) is above some threshold; e.g.,
+
+$$
+\mathsf{K} > (\mathsf{RTT} \times \mathsf{C})/7
+$$
+
+where C is the link rate in packets per second, then the switch
+sets the CE bit in the IP header.
+
+The receiver then maintains a boolean state variable, which we'll
+denote `SeenCE`, and implements the following simple state machine in
+response to every received packet:
+
+- If the CE bit is set and `SeenCE=False`, set `SeenCE` to True and
+send an immediate ACK.
+
+- If the CE bit is not set and `SeenCE=True`, set `SeenCE` to False
+and send an immediate ACK.
+
+- Otherwise, ignore the CE bit.
+
+The non-obvious consequence of the "otherwise" case is that the
+receiver continues to send delayed ACKs once every $$n$$ packets, even
+when receiving packets with the CE bit set. This has proven important
+to maintain high performance in a datacenter.
+
+Finally, the sender computes the fraction of bytes that encountered
+congestion during the previous observation window (usually chosen to
+be approximately the RTT), as the ratio of the total bytes transmitted
+and the bytes acknowledged with the ECE flag set. DCTCP grows the
+congestion window in exactly the same way as the standard algorithm,
+but it reduces the window propotional to how many bytes encountered
+congestion during the last observation window.
+
+
+
+
+
+
