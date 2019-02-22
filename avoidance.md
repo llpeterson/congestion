@@ -344,7 +344,7 @@ back to the source by the destination host. TCP running on the source
 responds to the ECN bit set in exactly the same way it responds to a
 dropped packet.
 
-While ECN is now the standard interpretation of two of the three bits
+While ECN is now the standard interpretation of two of the four bits
 in the `TOS` field of the IP header and support for ECN is highly
 recommended, it is not required. Moreover, there is no single
 recommended AQM algorithm, but instead, there is a list of
