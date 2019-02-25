@@ -644,7 +644,7 @@ congestion during the previous observation window (usually chosen to
 be approximately the RTT), as the ratio of the total bytes transmitted
 and the bytes acknowledged with the ECE flag set. DCTCP grows the
 congestion window in exactly the same way as the standard algorithm,
-but it reduces the window in propotion to how many bytes encountered
+but it reduces the window in proportion to how many bytes encountered
 congestion during the last observation window.
 
 
