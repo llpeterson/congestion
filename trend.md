@@ -45,7 +45,8 @@ example, Google has publicly described their private WAN, called B4,
 which is built entirely using white-box switches and SDN. B4 does not
 add/drop wavelengths to adjust inter-node bandwidth—it instead
 dynamically builds end-to-end tunnels using a technique called
-*Equal-Cost Multipath* (ECMP)—but the flexibility it affords is
+*Equal-Cost Multipath* (ECMP), an alternative to CSPF described in
+[Section 4.3](../scaling/mpls.md)—but the flexibility it affords is
 similar.
 
 A Traffic Engineering (TE) control program then provisions the network
@@ -85,5 +86,11 @@ the layers are implemented in software rather than hardware. This is
 increasingly becoming the norm.
 
 > [!NOTE|label:Broader Perspective]
-> To continue learning about the cloudification of the Internet, see
-> [Big Data and Analytics](../data/trend.md)
+> To continue reading about the cloudification of the Internet, see
+> [Big Data and Analytics](../data/trend.md).
+>
+> To brush up on the basics, see
+> * MPLS/CSPF: [Section 4.3](../scaling/mpls.md).
+>
+> To learn more about the B4, we recommend:
+> * [B4: Experience with a Globally Deployed Software Defined WAN](https://cseweb.ucsd.edu/~vahdat/papers/b4-sigcomm13.pdf), August 2013.
