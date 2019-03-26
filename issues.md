@@ -70,17 +70,18 @@ on shared-access networks (e.g., Ethernet and Wi-Fi). These
 access-control algorithms are, in some sense, analogous to
 congestion-control algorithms in a switched network.
 
-Note that congestion control is a different problem than routing. While
-it is true that a congested link could be assigned a large edge weight
-by the routing protocol, and, as a consequence, routers would route
-around it, "routing around" a congested link does not generally solve
-the congestion problem. To see this, we need look no further than the
-simple network depicted in [Figure 1](#congestion), where all traffic
-has to flow through the same router to reach the destination. Although
-this is an extreme example, it is common to have a certain router that
-it is not possible to route around. This router can become congested,
-and there is nothing the routing mechanism can do about it. This
-congested router is sometimes called the *bottleneck* router.
+> [!Note|style:flat|label:Key Takeaway|iconVisibility:hidden]
+> Note that congestion control is a different problem than routing. While
+> it is true that a congested link could be assigned a large edge weight
+> by the routing protocol, and, as a consequence, routers would route
+> around it, "routing around" a congested link does not generally solve
+> the congestion problem. To see this, we need look no further than the
+> simple network depicted in [Figure 1](#congestion), where all traffic
+> has to flow through the same router to reach the destination. Although
+> this is an extreme example, it is common to have a certain router that
+> it is not possible to route around. This router can become congested,
+> and there is nothing the routing mechanism can do about it. This
+> congested router is sometimes called the *bottleneck* router.
 
 ### Connectionless Flows
 
