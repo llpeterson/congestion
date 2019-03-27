@@ -27,27 +27,27 @@ an ocean or launching a satellite into space.
 But with the advent of technologies like DWDM
 ([Section 3.1](../internetworking/switching.md)) and MPLS
 ([Section 4.3](../scaling/mpls.md)), we don't always have to lay more
-fiber, but can instead turn on additional wavelengths or establish an
-end-to-end circuit between any pair of sites. (These sites need not be
-directly connected by fiber; e.g., a wavelength between Boston and San
-Francisco might run through ROADMs in Chicago and Denver, but from the
-perspective of the L2/L3 network topology, Boston and San Francisco
+fiber, but can instead turn on additional wavelengths or establish new
+circuits between any pair of sites. (These sites need not be directly
+connected by fiber. For example, a wavelength between Boston and
+San Francisco might run through ROADMs in Chicago and Denver, but from
+the perspective of the L2/L3 network topology, Boston and San Francisco
 are connected by a direct link.) This dramatically lowers the
 time-to-availability, but reconfiguring hardware still requires manual
 intervention, and so our definition of “instantly” is still measured in
 days, if not weeks. Afterall, there are requisition forms to be filled
 out, in triplicate!
 
-But as we have seen over and over, once you provide the right
+But we have seen again and again, once you provide the right
 programmatic interfaces, software can be brought to bear on the
 problem, and “instantly” can, for all practical purposes, be truly
 instantaneous. This is effectively what cloud providers do with the
 private backbones they build to interconnect their datacenters. For
 example, Google has publicly described their private WAN, called B4,
 which is built entirely using white-box switches and SDN. B4 does not
-add/drop wavelengths to adjust inter-node bandwidth—it instead
-dynamically builds end-to-end tunnels using a technique called
-*Equal-Cost Multipath* (ECMP), an alternative to CSPF described in
+add/drop wavelengths to adjust inter-node bandwidth—it dynamically
+builds end-to-end tunnels using a technique called *Equal-Cost
+Multipath* (ECMP), an alternative to CSPF introduced in
 [Section 4.3](../scaling/mpls.md)—but the flexibility it affords is
 similar.
 
