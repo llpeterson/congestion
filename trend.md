@@ -24,17 +24,19 @@ since it would take a significant amount of time and money to change
 the network. In the worse case, it might involve laying cable across
 an ocean or launching a satellite into space.
 
-But with the advent of technologies like *Dense Wave Division
-Multiplexing* (DWDM), we no longer have to lay more fiber, but can
-instead turn on additional wavelengths between any pair of
-sites. (These sites need not be directly connected by fiber; a
-wavelength between Boston and San Francisco might run through ROADMs
-in Chicago and Denver, but from the perspective of the L2/L3 network
-topology, Boston and San Francisco are connected by a direct link.)
-This dramatically lowers the time-to-availability, but reconfiguring
-hardware is still a manual operation, and so our definition of
-“instantly” is still measured in days, if not weeks. Afterall, there
-are requisition forms to be filled out, in triplicate!
+But with the advent of technologies like DWDM
+([Section 3.1](../internetworking/switching.md)) and MPLS
+([Section 4.3](../scaling/mpls.md)), we don't always have to lay more
+fiber, but can instead turn on additional wavelengths or establish an
+end-to-end circuit between any pair of sites. (These sites need not be
+directly connected by fiber; e.g., a wavelength between Boston and San
+Francisco might run through ROADMs in Chicago and Denver, but from the
+perspective of the L2/L3 network topology, Boston and San Francisco
+are connected by a direct link.) This dramatically lowers the
+time-to-availability, but reconfiguring hardware still requires manual
+intervention, and so our definition of “instantly” is still measured in
+days, if not weeks. Afterall, there are requisition forms to be filled
+out, in triplicate!
 
 But as we have seen over and over, once you provide the right
 programmatic interfaces, software can be brought to bear on the
@@ -88,9 +90,6 @@ increasingly becoming the norm.
 > [!NOTE|label:Broader Perspective]
 > To continue reading about the cloudification of the Internet, see
 > [Big Data and Analytics](../data/trend.md).
->
-> To brush up on the basics, see
-> * MPLS/CSPF: [Section 4.3](../scaling/mpls.md).
 >
 > To learn more about the B4, we recommend:
 > * [B4: Experience with a Globally Deployed Software Defined WAN](https://cseweb.ucsd.edu/~vahdat/papers/b4-sigcomm13.pdf), August 2013.
