@@ -38,7 +38,7 @@ intervention, and so our definition of “instantly” is still measured in
 days, if not weeks. Afterall, there are requisition forms to be filled
 out, in triplicate!
 
-But we have seen again and again, once you provide the right
+But as we have seen again and again, once you provide the right
 programmatic interfaces, software can be brought to bear on the
 problem, and “instantly” can, for all practical purposes, be truly
 instantaneous. This is effectively what cloud providers do with the
