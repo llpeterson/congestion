@@ -104,7 +104,7 @@ that circuit. The focus of this chapter is on resource allocation
 approaches that apply in an internetwork, and thus we focus mainly on
 connectionless networks.
 
-<figure class="line">
+<figure>
 	<a id="congestion"></a>
 	<img src="figures/f06-01-9780123850591.png" width="500px"/>
 	<figcaption>A potential bottleneck router.</figcaption>
@@ -133,7 +133,7 @@ network, whereas a channel is an end-to-end abstraction.
 [Figure 2](#flow) illustrates several flows passing through a series of
 routers.
 
-<figure class="line">
+<figure>
 	<a id="flow"></a>
 	<img src="figures/f06-02-9780123850591.png" width="500px"/>
 	<figcaption>Multiple flows passing through a set of routers.</figcaption>
@@ -374,7 +374,7 @@ point when there are so many jobs running that the system begins to
 thrash (spends all of its time swapping memory pages) and the throughput
 begins to drop.
 
-<figure class="line">
+<figure>
 	<a id="power"></a>
 	<img src="figures/f06-03-9780123850591.png" width="350px"/>
 	<figcaption>Ratio of throughput to delay as a function of load.</figcaption>
@@ -415,7 +415,7 @@ Should we also consider the length of the paths being compared? For
 example, as illustrated in [Figure 4](#path-len), what is fair when one
 four-hop flow is competing with three one-hop flows?
 
-<figure class="line">
+<figure>
 	<a id="path-len"></a>
 	<img src="figures/f06-04-9780123850591.png" width="600px"/>
 	<figcaption>One four-hop flow competing with three one-hop

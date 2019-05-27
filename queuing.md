@@ -24,7 +24,7 @@ is done without regard to which flow the packet belongs to or how
 important the packet is. This is sometimes called *tail drop*, since
 packets that arrive at the tail end of the FIFO are dropped.
 
-<figure class="line">
+<figure>
 	<a id="fifo"></a>
 	<img src="figures/f06-05-9780123850591.png" width="400px"/>
 	<figcaption>(a) FIFO queuing; (b) tail drop at a FIFO queue.</figcaption>
@@ -116,7 +116,7 @@ flow's queue are discarded. In this way, a given source cannot
 arbitrarily increase its share of the network's capacity at the expense
 of other flows.
 
-<figure class="line">
+<figure>
 	<a id="fq"></a>
 	<img src="figures/f06-06-9780123850591.png" width="350px"/>
 	<figcaption>Round-robin service of four flows at a router.</figcaption>
@@ -202,7 +202,7 @@ transmitted. It is this lack of preemption that keeps the implementation
 of FQ just described from exactly simulating the bit-by-bit round-robin
 scheme that we are attempting to approximate.
 
-<figure class="line">
+<figure>
 	<a id="fair-queuing"></a>
 	<img src="figures/f06-07-9780123850591.png" width="600px"/>
 	<figcaption>Example of fair queuing in action: (a) Packets with

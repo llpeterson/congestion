@@ -63,7 +63,7 @@ requirements vary from the interactive applications like SSH to more
 asynchronous ones like email, with interactive bulk transfers like file
 transfer in the middle.
 
-<figure class="line">
+<figure>
 	<a id="audio"></a>
 	<img src="figures/f06-20-9780123850591.png" width="600px"/>
 	<figcaption>An audio application.</figcaption>
@@ -123,7 +123,7 @@ noticed by the application. However, if we move the playback line a
 little to the left, then some packets will begin to arrive too late to
 be useful.
 
-<figure class="line">
+<figure>
 	<a id="playback"></a>
 	<img src="figures/f06-21-9780123850591.png" width="500px"/>
 	<figcaption>A playback buffer.</figcaption>
@@ -137,7 +137,7 @@ that all our data will arrive within 300 ms. If data arrives early, we
 buffer it until its correct playback time. If it arrives late, we have
 no use for it and must discard it.
 
-<figure class="line">
+<figure>
 	<a id="jitter2"></a>
 	<img src="figures/f06-22-9780123850591.png" width="500px"/>
 	<figcaption>Example distribution of delays for an Internet
@@ -168,7 +168,7 @@ of Clark, Braden, Shenker, and Zhang, whose papers on this subject can
 be found in the Further Reading section for this chapter. The taxonomy
 of applications is summarized in [Figure 4](#taxonomy).
 
-<figure class="line">
+<figure>
 	<a id="taxonomy"></a>
 	<img src="figures/f06-23-9780123850591.png" width="500px"/>
 	<figcaption>Taxonomy of applications.</figcaption>
@@ -401,7 +401,7 @@ that this information is very helpful to the admission control algorithm
 when it tries to figure out whether it can accommodate a new request for
 service.
 
-<figure class="line">
+<figure>
 	<a id="token"></a>
 	<img src="figures/f06-24-9780123850591.png" width="300px"/>
 	<figcaption>Two flows with equal average rates but different token
@@ -578,7 +578,7 @@ RESV messages, and these reservations will time out and be released.
 Thus, RSVP deals quite well with changes in topology, as long as routing
 changes are not excessively frequent.
 
-<figure class="line">
+<figure>
 	<a id="pathmsg"></a>
 	<img src="figures/f06-25-9780123850591.png" width="500px"/>
 	<figcaption>Making reservations on a multicast tree.</figcaption>
@@ -808,7 +808,7 @@ algorithm. If the congestion becomes more serious, a higher percentage
 of "out" packets are dropped, and then if the average queue length
 exceeds , RED starts to drop "in" packets as well.
 
-<figure class="line">
+<figure>
 	<a id="rio-prob"></a>
 	<img src="figures/f06-26-9780123850591.png" width="400px"/>
 	<figcaption>RED with In and Out drop probabilities.</figcaption>

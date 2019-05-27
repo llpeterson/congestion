@@ -64,7 +64,7 @@ congestion bit is a trade-off between significant queuing (and hence
 higher throughput) and increased idle time (and hence lower delay). In
 other words, a queue length of 1 seems to optimize the power function.
 
-<figure class="line">
+<figure>
 	<a id="decbit"></a>
 	<img src="figures/f06-14-9780123850591.png" width="500px"/>
 	<figcaption>Computing average queue length at a router.</figcaption>
@@ -152,7 +152,7 @@ length. You can think of the running average as a low-pass filter, where
 `Weight` determines the time constant of the filter. The question of
 how we pick this time constant is discussed below.
 
-<figure class="line">
+<figure>
 	<a id="red-avg"></a>
 	<img src="figures/f06-15-9780123850591.png" width="500px"/>
 	<figcaption>Weighted running average queue length.</figcaption>
@@ -189,13 +189,13 @@ packets. Some research has suggested that a smoother transition from
 random dropping to complete dropping, rather than the discontinuous
 approach shown here, may be appropriate.
 
-<figure class="line">
+<figure>
 	<a id="red"></a>
 	<img src="figures/f06-16-9780123850591.png" width="300px"/>
 	<figcaption>RED thresholds on a FIFO queue.</figcaption>
 </figure>
 
-<figure class="line">
+<figure>
 	<a id="red-prob"></a>
 	<img src="figures/f06-17-9780123850591.png" width="400px"/>
 	<figcaption>Drop probability function for RED.</figcaption>
@@ -435,7 +435,7 @@ increase beyond the available bandwidth. Beyond this point, any increase
 in the window size only results in packets taking up buffer space at the
 bottleneck router (bottom graph).
 
-<figure class="line">
+<figure>
 	<a id="trace3"></a>
 	<img src="figures/f06-18-9780123850591.png" width="600px"/>
 	<figcaption>Congestion window versus observed throughput rate (the
@@ -512,7 +512,7 @@ bandwidth. The $$\alpha$$ threshold triggers this increase. The
 overall goal is to keep between $$\alpha$$ and $$\beta$$ extra bytes
 in the network.
 
-<figure class="line">
+<figure>
 	<a id="vegas"></a>
 	<img src="figures/f06-19-9780123850591.png" width="600px"/>
 	<figcaption>Trace of TCP Vegas congestion-avoidance mechanism.

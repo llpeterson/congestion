@@ -95,7 +95,7 @@ and finally to 1 packet. `CongestionWindow` is not allowed to fall
 below the size of a single packet, or in TCP terminology, the *maximum
 segment size* .
 
-<figure class="line">
+<figure>
 	<a id="linear"></a>
 	<img src="figures/f06-08-9780123850591.png" width="200px"/>
 	<figcaption>Packets in transit during additive increase, with one 
@@ -126,7 +126,7 @@ That is, rather than incrementing `CongestionWindow` by an entire
 time an ACK is received. Assuming that each ACK acknowledges the receipt
 of `MSS` bytes, then that fraction is .
 
-<figure class="line">
+<figure>
 	<a id="sawtooth"></a>
 	<img src="figures/f06-09-9780123850591.png" width="600px"/>
 	<figcaption>Typical TCP sawtooth pattern.</figcaption>
@@ -180,7 +180,7 @@ effectively doubles the number of packets it has in transit every RTT.
 transit during slow start. Compare this to the linear growth of additive
 increase illustrated in [Figure 1](#linear).
 
-<figure class="line">
+<figure>
 	<a id="exponential"></a>
 	<img src="figures/f06-10-9780123850591.png" width="200px"/>
 	<figcaption>Packets in transit during slow start.</figcaption>
@@ -269,7 +269,7 @@ start and additive increase/multiplicative decrease. This trace was
 taken from an actual TCP connection and shows the current value of
 `CongestionWindow`—the colored line—over time.
 
-<figure class="line">
+<figure>
 	<a id="trace1"></a>
 	<img src="figures/f06-11-9780123850591.png" width="600px"/>
 	<figcaption>Behavior of TCP congestion control. Colored line = value
@@ -396,7 +396,7 @@ the sender waits until it sees some number of duplicate ACKs and then
 retransmits the missing packet. In practice, TCP waits until it has seen
 three duplicate ACKs before retransmitting the packet.
 
-<figure class="line">
+<figure>
 	<a id="tcp-fast"></a>
 	<img src="figures/f06-12-9780123850591.png" width="300px"/>
 	<figcaption>Fast retransmit based on duplicate ACKs.</figcaption>
@@ -414,7 +414,7 @@ retransmits packet 3. Note that when the retransmitted copy of packet 3
 arrives at the destination, the receiver then sends a cumulative ACK for
 everything up to and including packet 6 back to the source.
 
-<figure class="line">
+<figure>
 	<a id="trace2"></a>
 	<img src="figures/f06-13-9780123850591.png" width="600px"/>
 	<figcaption>Trace of TCP with fast retransmit. Colored line 
@@ -475,7 +475,7 @@ duplicate ACK), rather than only when ACKs arrive (the latter being a
 function of RTT). This allows CUBIC to behave fairly when competing
 with short-RTT flows, which will have ACKs arriving more frequently.
 
-<figure class="line">
+<figure>
 	<a id="cubic"></a>
 	<img src="figures/tcp/slide1.png" width="500px"/>
 	<figcaption>Generic cubic function illustrsting the change in the congestion 
