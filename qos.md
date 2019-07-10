@@ -954,7 +954,7 @@ ensuring that the flow's behavior adheres to an equation that models
 TCP's behavior. Hence, this approach is sometimes called *equation-based
 congestion control*.
 
-We saw a simplified form of the TCP rate equation in in an earlier
+We saw a simplified form of the TCP rate equation in an earlier
 section. The interested reader is referred to the papers cited at the
 end of this chapter for details about the full model. For our purposes,
 it is sufficient to note that the equation takes this general form:
@@ -968,7 +968,7 @@ inversely proportional to the round-trip time (RTT) and the square
 root of the loss rate ($$\rho$$). In other words, to build a
 congestion control mechanism out of this relationship, the receiver
 must periodically report the loss rate it is experiencing back to the
-sender (e.g., it might report that it failed to received 10% of the
+sender (e.g., it might report that it failed to receive 10% of the
 last 100 packets), and the sender then adjusts its sending rate up or
 down, such that this relationship continues to hold. Of course, it is
 still up to the application to adapt to these changes in the available

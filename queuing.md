@@ -67,7 +67,7 @@ The problem with priority queuing, of course, is that the high-priority
 queue can starve out all the other queues; that is, as long as there is
 at least one high-priority packet in the high-priority queue,
 lower-priority queues do not get served. For this to be viable, there
-need to be hard limits on how much high-priority traffic is inserted in
+needs to be hard limits on how much high-priority traffic is inserted in
 the queue. It should be immediately clear that we can't allow users to
 set their own packets to high priority in an uncontrolled way; we must
 either prevent them from doing this altogether or provide some form of

@@ -20,7 +20,7 @@ router to assist the end node in the anticipation of congestion. This
 approach is often referred to as *Active Queue Management*  (AQM).
 The second approach attempts to avoid congestion purely from the end
 hosts. This approach is implemented in TCP, making it variant of
-the congestion control mechainsms described in the previous section.
+the congestion control mechanisms described in the previous section.
 
 ## Active Queue Management (DECbit, RED, ECN)
 
@@ -219,7 +219,7 @@ the two thresholds. `P` increases slowly as `count` increases,
 thereby making a drop increasingly likely as the time since the last
 drop increases. This makes closely spaced drops relatively less likely
 than widely spaced drops. This extra step in calculating `P` was
-introduced by the inventorsof RED when they observed that, without it,
+introduced by the inventors of RED when they observed that, without it,
 the packet drops were not well distributed in time but instead tended to
 occur in clusters. Because packet arrivals from a certain connection are
 likely to arrive in bursts, this clustering of drops is likely to cause
@@ -330,7 +330,7 @@ the recognition that TCP could do a better job if routers were to send
 a more explicit congestion signal.
 
 That is, instead of *dropping* a packet and assuming TCP will
-eventually notice (e.g., due to the arrival of a a duplicate ACK), RED
+eventually notice (e.g., due to the arrival of a duplicate ACK), RED
 (or any AQM algorithm for that matter) can do a better job if it
 instead *marks* the packet and continues to send it along its way to
 the destination. This idea was codified in changes to the IP and TCP
