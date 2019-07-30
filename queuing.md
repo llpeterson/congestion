@@ -285,7 +285,11 @@ other flows are sharing the link.) We will see in a later section how
 WFQ can be used as a component of a reservation-based resource
 allocation mechanism.
 
+{% if output.name == "ebook" %}
+> **Key Takeaway**
+{% else %}
 > [!Note|style:flat|label:Key Takeaway|iconVisibility:hidden]
+{% endif %}
 > Finally, we observe that this whole discussion of queue management
 > illustrates an important system design principle known as *separating
 > policy and mechanism*. The idea is to view each mechanism as a black box
