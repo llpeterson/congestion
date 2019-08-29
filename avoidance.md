@@ -120,10 +120,10 @@ monitor the queue length and when to drop a packet.
 
 In the following paragraphs, we describe the RED algorithm as originally
 proposed by Floyd and Jacobson. We note that several modifications have
-since been proposed both by the inventors and by other researchers; some
-of these are discussed in Further Reading. However, the key ideas are
-the same as those presented below, and most current implementations are
-close to the algorithm that follows.
+since been proposed both by the inventors and by other
+researchers. However, the key ideas are the same as those presented
+below, and most current implementations are close to the algorithm
+that follows.
 
 First, RED computes an average queue length using a weighted running
 average similar to the one used in the original TCP timeout computation.
@@ -261,7 +261,10 @@ the share of the bandwidth that that flow is currently getting at that
 router. This is because a flow that is sending a relatively large number
 of packets is providing more candidates for random dropping. Thus, there
 is some sense of fair resource allocation built into RED, although it is
-by no means precise.
+by no means precise. While arguably fair, because RED punishes
+high-bandwidth flows more than low-bandwidth flows, it increases the
+probability of a TCP restart, which is doubly painful for those
+high-bandwidth flows.
 
 {% if output.name == "ebook" %}
 > **Key Takeaway**
