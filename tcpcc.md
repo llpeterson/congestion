@@ -477,7 +477,7 @@ with short-RTT flows, which will have ACKs arriving more frequently.
 
 <figure>
 	<a id="cubic"></a>
-	<img src="figures/tcp/slide1.png" width="500px"/>
+	<img src="figures/tcp/Slide1.png" width="500px"/>
 	<figcaption>Generic cubic function illustrsting the change in the congestion 
 	window as a function of time.</figcaption>
 </figure>
