@@ -31,7 +31,7 @@ packets that arrive at the tail end of the FIFO are dropped.
    :width: 400px
    :align: center
 
-   (a) FIFO queuing; (b) tail drop at a FIFO queue.
+   FIFO queuing (a), and tail drop at a FIFO queue (b).
 
 Note that tail drop and FIFO are two separable ideas. FIFO is a
 *scheduling discipline*—it determines the order in which packets are

@@ -1,5 +1,5 @@
 6.4 Advanced Congestion Control
-==========================
+===============================
 
 This section explores congestion control more deeply. In doing so, it is
 important to understand that the standard TCP’s strategy is to control
