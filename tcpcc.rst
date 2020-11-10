@@ -47,8 +47,8 @@ TCP maintains a new state variable for each connection, called
 ``CongestionWindow``, which is used by the source to limit how much data
 it is allowed to have in transit at a given time. The congestion window
 is congestion control’s counterpart to flow control’s advertised window.
-TCP is modified such that the maximum number of bytes of unacknow-
-ledged data allowed is now the minimum of the congestion window and the
+TCP is modified such that the maximum number of bytes of unacknowledged 
+data allowed is now the minimum of the congestion window and the
 advertised window. Thus, using the variables defined in the previous
 chapter, TCP’s effective window is revised as follows:
 
